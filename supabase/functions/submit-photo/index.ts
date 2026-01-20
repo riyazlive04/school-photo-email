@@ -49,9 +49,12 @@ serve(async (req) => {
       const errorText = await response.text();
       console.error('n8n webhook error:', errorText);
       return new Response(
-        JSON.stringify({ error: 'Failed to process photo', details: errorText }),
+        JSON.stringify({ 
+          error: 'n8n webhook rejected the request. Ensure the workflow is Active and accepts POST requests.',
+          details: errorText 
+        }),
         { 
-          status: response.status,
+          status: 502,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         }
       );
